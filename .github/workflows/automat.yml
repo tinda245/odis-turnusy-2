@@ -1,0 +1,80 @@
+name: 24h Sledovani ODIS
+
+on:
+  workflow_dispatch: # Ruční spuštění jedním tlačítkem
+  schedule:
+    - cron: "0 3 * * *" # Volitelně: automatické spuštění každý den ráno
+
+permissions:
+  contents: write
+
+jobs:
+  blok_1_hodiny_0_az_6:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalace prostredi
+        run: |
+          pip install -r requirements.txt > /dev/null 2>&1
+          playwright install chromium > /dev/null 2>&1
+      - name: Sledovani mapy ODIS (Blok 1)
+        run: python sledovani.py
+
+  blok_2_hodiny_6_az_12:
+    needs: blok_1_hodiny_0_az_6
+    if: always()
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalace prostredi
+        run: |
+          pip install -r requirements.txt > /dev/null 2>&1
+          playwright install chromium > /dev/null 2>&1
+      - name: Sledovani mapy ODIS (Blok 2)
+        run: python sledovani.py
+
+  blok_3_hodiny_12_az_18:
+    needs: blok_2_hodiny_6_az_12
+    if: always()
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalace prostredi
+        run: |
+          pip install -r requirements.txt > /dev/null 2>&1
+          playwright install chromium > /dev/null 2>&1
+      - name: Sledovani mapy ODIS (Blok 3)
+        run: python sledovani.py
+
+  blok_4_hodiny_18_az_24:
+    needs: blok_3_hodiny_12_az_18
+    if: always()
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalace prostredi
+        run: |
+          pip install -r requirements.txt > /dev/null 2>&1
+          playwright install chromium > /dev/null 2>&1
+      - name: Sledovani mapy ODIS (Blok 4)
+        run: python sledovani.py
